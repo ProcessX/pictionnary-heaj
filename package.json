@@ -2,7 +2,6 @@
   "name": "pictionnary-heaj",
   "version": "0.0.1",
   "description": "An exercice on WebSockets",
-  "main": "index.js",
   "scripts": {
     "start": "node server.js"
   },
