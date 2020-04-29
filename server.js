@@ -18,12 +18,32 @@ io.on('connection', (socket) => {
   onConnection(socket);
 });
 
+let users = [];
+
 function onConnection(socket) {
   socket.on('username', (username) => {
     console.log(`Welcome, ${username}`);
+    socket.username = username;
+    users.push(socket);
+    sendUsers(users);
   });
 
   socket.on('line', (data) => {
     socket.broadcast.emit('line', data)
   });
+
+  socket.on('disconnect', () => {
+    users = users.filter((user) => {
+      return user !== socket;
+    });
+    console.log(users.length);
+    sendUsers();
+  });
+}
+
+
+function sendUsers() {
+  io.emit('users', users.map((user) => {
+    return user.username;
+  }));
 }

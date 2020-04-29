@@ -4,13 +4,59 @@
     <meta charset="UTF-8">
     <title>Pictionnary</title>
     <style>
+        body{
+            font-family: sans-serif;
+            font-size: 24px;
+        }
+
         canvas{
             box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        form{
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            background-color: gray;
+            color: white;
+        }
+
+        label{
+            width: 100%;
+            margin: 1em 0;
+            display: block;
+        }
+
+        .users{
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            padding: 1em;
+            background-color: gray;
+            font-weight: 600;
+            color: white;
         }
     </style>
 </head>
 <body>
     <h1>Pictionnary</h1>
+
+    <form>
+        <label>
+            Line weight : <input class="js-weight" type="range" min="1" max="50" value="4">
+        </label>
+
+        <label>
+            Color : <input class="js-color" type="color" value="#000">
+        </label>
+    </form>
+
+    <ul class="users js-users">
+        <h2>Users</h2>
+    </ul>
+
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
@@ -23,22 +69,42 @@
 
         socket.emit('username', username);
 
+        const inputWeight = document.querySelector('.js-weight');
+        const inputColor = document.querySelector('.js-color');
+        const usersList = document.querySelector('.js-users');
+
         function setup(){
           createCanvas(600, 600);
         }
 
         function mouseDragged(){
+            strokeWeight(inputWeight.value);
+            stroke(inputColor.value);
             line(mouseX, mouseY, pmouseX, pmouseY);
             socket.emit('line', {
               mouseX: mouseX,
               mouseY: mouseY,
               pmouseX: pmouseX,
               pmouseY: pmouseY,
+              weight: inputWeight.value,
+              color: inputColor.value,
             });
         }
 
         socket.on('line', (data) => {
+            stroke(data.color);
+            strokeWeight(data.weight);
             line(data.mouseX, data.mouseY, data.pmouseX, data.pmouseY);
+        });
+
+        socket.on('users', (data) => {
+          usersList.innerHTML = '';
+          data.forEach((user) => {
+            const li = document.createElement('li');
+            li.innerHTML = user;
+
+            usersList.appendChild(li);
+          });
         });
     </script>
 </body>
