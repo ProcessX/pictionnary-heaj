@@ -16,7 +16,7 @@
     "url": "https://github.com/ProcessX/pictionnary-heaj/issues"
   },
   "homepage": "https://github.com/ProcessX/pictionnary-heaj#readme",
-  "devDependencies": {
+  "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^2.3.0"
   }
