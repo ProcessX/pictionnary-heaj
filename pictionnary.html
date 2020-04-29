@@ -67,6 +67,7 @@
     <script>
         console.log('Plop');
         let socket = io();
+        let isActive = false;
 
         const username = prompt('What is your name ?');
 
@@ -81,6 +82,9 @@
         }
 
         function mouseDragged(){
+          if(!isActive){
+            return
+          }
             strokeWeight(inputWeight.value);
             stroke(inputColor.value);
             line(mouseX, mouseY, pmouseX, pmouseY);
@@ -104,11 +108,27 @@
           usersList.innerHTML = '';
           data.forEach((user) => {
             const li = document.createElement('li');
-            li.innerHTML = user;
+            if(user.active) {
+              li.innerHTML = `<b style="text-decoration: underline">${user.username}</b>`;
+            }
+            else
+              li.innerHTML = user.username;
 
             usersList.appendChild(li);
+
+            if(user.username === username){
+              isActive = user.active;
+            }
           });
         });
+
+        socket.on('clear', data => {
+          clear();
+        });
+
+        socket.on('word', (word) => {
+          alert(`Your word is ${word}`);
+        })
     </script>
 </body>
 </html>
