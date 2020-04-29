@@ -1,0 +1,23 @@
+{
+  "name": "pictionnary-heaj",
+  "version": "0.0.1",
+  "description": "An exercice on WebSockets",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProcessX/pictionnary-heaj.git"
+  },
+  "author": "Lucas Geshef",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProcessX/pictionnary-heaj/issues"
+  },
+  "homepage": "https://github.com/ProcessX/pictionnary-heaj#readme",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
