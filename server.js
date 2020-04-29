@@ -24,6 +24,6 @@ function onConnection(socket) {
   });
 
   socket.on('line', (data) => {
-    socket.broadcast.emit()
-  })
+    socket.broadcast.emit('line', data)
+  });
 }
